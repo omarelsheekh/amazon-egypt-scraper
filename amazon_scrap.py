@@ -10,7 +10,9 @@ from decimal import Decimal
 e = Extractor.from_yaml_file('amazon_temp.yml')
 
 def scrape(url, page):  
-
+    if page % 10 == 0:
+        print('Waiting for 10 sec')
+        sleep(10)
     headers = {
         'dnt': '1',
         'upgrade-insecure-requests': '1',
