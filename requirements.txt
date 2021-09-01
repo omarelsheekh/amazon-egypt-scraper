@@ -1,1 +1,2 @@
 selectorlib
+requests
