@@ -44,16 +44,18 @@ final_products = []
 url = input("Enter url\n")
 x = int(input("Enter page numbers\n"))
 for p in range(x):
-	data = scrape(url, p+1)
-	if data:
-            for product in data['products']:
-                if product.get('old_price'):
-                    old_price = float(Decimal(sub(r'[^\d.]', '', product['old_price'])))
-                    new_price = float(Decimal(sub(r'[^\d.]', '', product['new_price'])))
-                    discount = int(((old_price - new_price) / old_price ) * 100.0)
-                    final_products.append({
-                    'product':product['name'],
-                    'discount':discount,
-                    'price':'new: {} , old: {}'.format(new_price, old_price)
-                    })
+    data = scrape(url, p+1)
+    try:
+        for product in data['products']:
+            if product.get('old_price'):
+                old_price = float(Decimal(sub(r'[^\d.]', '', product['old_price'])))
+                new_price = float(Decimal(sub(r'[^\d.]', '', product['new_price'])))
+                discount = int(((old_price - new_price) / old_price ) * 100.0)
+                final_products.append({
+                'product':product['name'],
+                'discount':discount,
+                'price':'new: {} , old: {}'.format(new_price, old_price)
+                })
+    except :
+        print('error getting this page')
 print(json.dumps(sorted(final_products, key=lambda k: k['discount'], reverse=True), indent=4))
